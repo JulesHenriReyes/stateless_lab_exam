@@ -1,6 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+void _log(String msg) {
+  debugPrint(msg);
+}
+
 // --- Student & Store Configuration ---
 const String kStudentName = 'Jules Henri A. Reyes';
 const String kCampusLocation = 'DPT Bldg, Matina Campus · Davao City';
@@ -90,11 +94,18 @@ class _Header extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Container(
-          width: 36,
-          height: 36,
-          decoration: kBox(radius: 10),
-          child: const Icon(CupertinoIcons.chevron_back, size: 16, color: kInk),
+        GestureDetector(
+          onTap: () => _log('Back clicked'),
+          child: Container(
+            width: 36,
+            height: 36,
+            decoration: kBox(radius: 10),
+            child: const Icon(
+              CupertinoIcons.chevron_back,
+              size: 16,
+              color: kInk,
+            ),
+          ),
         ),
         const SizedBox(width: 12),
         const Expanded(
@@ -117,24 +128,27 @@ class _Header extends StatelessWidget {
             ],
           ),
         ),
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-          decoration: kBox(radius: 20),
-          child: const Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Icon(CupertinoIcons.bag_fill, size: 12, color: kCrimson),
-              SizedBox(width: 5),
-              Text(
-                '3 items',
-                style: TextStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w700,
-                  color: kInk,
-                  fontFeatures: kTabular,
+        GestureDetector(
+          onTap: () => _log('Cart clicked'),
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+            decoration: kBox(radius: 20),
+            child: const Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(CupertinoIcons.bag_fill, size: 12, color: kCrimson),
+                SizedBox(width: 5),
+                Text(
+                  '3 items',
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w700,
+                    color: kInk,
+                    fontFeatures: kTabular,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ],
@@ -231,18 +245,21 @@ class _DeliveryCard extends StatelessWidget {
                   ],
                 ),
               ),
-              Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 10,
-                  vertical: 5,
-                ),
-                decoration: kBox(color: kWell, radius: 7),
-                child: const Text(
-                  'Edit',
-                  style: TextStyle(
-                    fontSize: 11.5,
-                    fontWeight: FontWeight.w700,
-                    color: kCrimson,
+              GestureDetector(
+                onTap: () => _log('Change delivery address clicked'),
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 5,
+                  ),
+                  decoration: kBox(color: kWell, radius: 7),
+                  child: const Text(
+                    'Edit',
+                    style: TextStyle(
+                      fontSize: 11.5,
+                      fontWeight: FontWeight.w700,
+                      color: kCrimson,
+                    ),
                   ),
                 ),
               ),
@@ -352,7 +369,14 @@ class CartItemCard extends StatelessWidget {
                         ],
                       ),
                     ),
-                    const Icon(CupertinoIcons.trash, size: 14, color: kMuted),
+                    GestureDetector(
+                      onTap: () => _log('Remove item: $name'),
+                      child: const Icon(
+                        CupertinoIcons.trash,
+                        size: 14,
+                        color: kMuted,
+                      ),
+                    ),
                   ],
                 ),
                 const SizedBox(height: 8),
@@ -377,13 +401,22 @@ class CartItemCard extends StatelessWidget {
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          const Icon(
-                            CupertinoIcons.minus,
-                            size: 11,
-                            color: kMuted,
+                          GestureDetector(
+                            onTap: () => _log('Decrease quantity: $name'),
+                            child: const Padding(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 4,
+                                vertical: 2,
+                              ),
+                              child: Icon(
+                                CupertinoIcons.minus,
+                                size: 11,
+                                color: kMuted,
+                              ),
+                            ),
                           ),
                           Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 8),
+                            padding: const EdgeInsets.symmetric(horizontal: 6),
                             child: Text(
                               '$quantity',
                               style: const TextStyle(
@@ -394,10 +427,19 @@ class CartItemCard extends StatelessWidget {
                               ),
                             ),
                           ),
-                          const Icon(
-                            CupertinoIcons.plus,
-                            size: 11,
-                            color: kMuted,
+                          GestureDetector(
+                            onTap: () => _log('Increase quantity: $name'),
+                            child: const Padding(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 4,
+                                vertical: 2,
+                              ),
+                              child: Icon(
+                                CupertinoIcons.plus,
+                                size: 11,
+                                color: kMuted,
+                              ),
+                            ),
                           ),
                         ],
                       ),
@@ -418,48 +460,51 @@ class _VoucherCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-      decoration: kBox(),
-      child: const Row(
-        children: [
-          Icon(CupertinoIcons.ticket_fill, size: 18, color: kGreen),
-          SizedBox(width: 10),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    Text(
-                      'STUDENT10',
-                      style: TextStyle(
-                        fontSize: 12.5,
-                        fontWeight: FontWeight.w800,
-                        letterSpacing: 0.3,
-                        color: kInk,
+    return GestureDetector(
+      onTap: () => _log('Voucher clicked: STUDENT10 (-10% OFF applied)'),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+        decoration: kBox(),
+        child: const Row(
+          children: [
+            Icon(CupertinoIcons.ticket_fill, size: 18, color: kGreen),
+            SizedBox(width: 10),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Text(
+                        'STUDENT10',
+                        style: TextStyle(
+                          fontSize: 12.5,
+                          fontWeight: FontWeight.w800,
+                          letterSpacing: 0.3,
+                          color: kInk,
+                        ),
                       ),
-                    ),
-                    SizedBox(width: 6),
-                    Text(
-                      '−10% OFF',
-                      style: TextStyle(
-                        fontSize: 10,
-                        fontWeight: FontWeight.w700,
-                        color: kGreen,
+                      SizedBox(width: 6),
+                      Text(
+                        '−10% OFF',
+                        style: TextStyle(
+                          fontSize: 10,
+                          fontWeight: FontWeight.w700,
+                          color: kGreen,
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-                Text(
-                  'UM student privilege applied (−PHP 200.00)',
-                  style: TextStyle(fontSize: 11, color: kMuted),
-                ),
-              ],
+                    ],
+                  ),
+                  Text(
+                    'UM student privilege applied (−PHP 200.00)',
+                    style: TextStyle(fontSize: 11, color: kMuted),
+                  ),
+                ],
+              ),
             ),
-          ),
-          Icon(CupertinoIcons.checkmark_seal_fill, size: 18, color: kGreen),
-        ],
+            Icon(CupertinoIcons.checkmark_seal_fill, size: 18, color: kGreen),
+          ],
+        ),
       ),
     );
   }
@@ -527,28 +572,31 @@ class _PlaceOrderButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      height: 48,
-      decoration: BoxDecoration(
-        color: kCrimson,
-        borderRadius: BorderRadius.circular(12),
-      ),
-      alignment: Alignment.center,
-      child: const Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            'Place Order',
-            style: TextStyle(
-              fontSize: 15,
-              fontWeight: FontWeight.w700,
-              color: Colors.white,
+    return GestureDetector(
+      onTap: () => _log('Place order clicked! Total: PHP 1,850.00'),
+      child: Container(
+        width: double.infinity,
+        height: 48,
+        decoration: BoxDecoration(
+          color: kCrimson,
+          borderRadius: BorderRadius.circular(12),
+        ),
+        alignment: Alignment.center,
+        child: const Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              'Place Order',
+              style: TextStyle(
+                fontSize: 15,
+                fontWeight: FontWeight.w700,
+                color: Colors.white,
+              ),
             ),
-          ),
-          SizedBox(width: 8),
-          Icon(CupertinoIcons.arrow_right, size: 14, color: Colors.white),
-        ],
+            SizedBox(width: 8),
+            Icon(CupertinoIcons.arrow_right, size: 14, color: Colors.white),
+          ],
+        ),
       ),
     );
   }
